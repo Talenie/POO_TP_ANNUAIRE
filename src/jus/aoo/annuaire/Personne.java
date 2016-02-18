@@ -27,33 +27,22 @@ public class Personne {
 			throw new Ensure("PersonneBienDefinie"); 
 		}
 	}
+	
+	
 	/**
-	 * Change le nom d'une personne
-	 * @param nom
-	 * @require NomExistant : nom!=null
-	 */
-	public void changernom(String nom) throws Require{
-		if(!(nom!=null)){ throw new Require("NomExistant");}
-		this.nom = nom;
-	}
-	/**
-	 * Change le prenom d'une personne
-	 * @param prenom
-	 * @require PrenomExistant : prenom!=null
-	 */
-	public void changerprenom(String prenom) throws Require{
-		if(!(prenom!=null)){ throw new Require("PrenomExistant");}
-		this.prenom = prenom;
-	}
-	/**
-	 * Cahnge la civilité d'une personne
+	 * Change la civilité d'une personne, si celle ci n'est pas déjà connue
 	 * @param civilite
 	 * @require CiviliteExistante : civilite!=null
+	 * @require CiviliteCouranteInconnue : this.civilite==Civilite.INCONNU
+	 * @require NouvelleCiviliteConnue : Civilite.fromString(civilite)!=Civilite.INCONNU
 	 */
 	public void changercivilite(String civilite) throws Require{
 		if(!(civilite!=null)){ throw new Require("CiviliteExistante");}
+		if(!(this.civilite==Civilite.INCONNU)){ throw new Require("CiviliteCouranteInconnue");}
+		if(!(Civilite.fromString(civilite)!=Civilite.INCONNU)){ throw new Require("NouvelleCiviliteConnue");}
 		this.civilite = Civilite.fromString(civilite);
 	}
+	
 	//Constructeurs
 	/**
 	 * Crée une personne avec un nom et un prénom.
@@ -66,7 +55,7 @@ public class Personne {
 		identite(nom,prenom,Civilite.INCONNU);
 	}
 	/**
-	 * 
+	 * Crée une personne a partir du nom, du prenom et de la civilité fournie
 	 * @param nom
 	 * @param prenom
 	 * @param civilite
@@ -97,7 +86,7 @@ public class Personne {
 	 * @return true si les deux ont les mêmes nom et prénoms
 	 * @require PersonneExiste : p!=null
 	 */
-	public boolean memenom(Personne p) throws Require{
+	public boolean memenomprenom(Personne p) throws Require{
 		if(!(p!=null)){throw new Require("PersonneExiste");}
 		return p.nom().equals(this.nom)&&p.prenom().equals(this.prenom);
 	}
