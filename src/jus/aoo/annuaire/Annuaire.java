@@ -1,5 +1,9 @@
 package jus.aoo.annuaire;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,10 +40,11 @@ public class Annuaire {
 	* chaque ligne du fichier est de la forme :
 	* Civilite Nom Prenom "Numero1" "Numero2" .... <CR> (Civilite = Mr ou Mme ou Melle)
 	* Correspondance interface: BOUTON Charger
-	*/
+	*/	
 	public void loadEntryFromFile(String file){
-		
+		annuaire = Util.importFromFile(file);
 	}
+	
 	/**
 	* retourne le premier numéro de la personne, si la personne est absente retourne null
 	* Correspondance interface: BOUTON Numéro
