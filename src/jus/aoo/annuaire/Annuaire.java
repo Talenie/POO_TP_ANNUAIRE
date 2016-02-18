@@ -1,21 +1,35 @@
 package jus.aoo.annuaire;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /** notion d'annuaire : ensemble d'associations Personne-Numero */
 public class Annuaire {
 	
 	// Attributs
+	private Map<Personne,Numeros> annuaire;
 	
 	/** constructeur d'annuaire vide */
 	public Annuaire(){
-		
+		annuaire = new HashMap<Personne,Numeros>();
 	}
 	/**
 	* ajoute une nouvelle entrée dans l'annuaire. Si p n'existe pas: on crée une nouvelle
 	* association (p,n) ; sinon : on ajoute n aux numéros de p
 	* Correspondance interface: BOUTON Ajouter
-	*/
+	 * @param p une personne
+	 * @param n un numéro
+	 */
 	public void addEntry(Personne p, String n){
-		
+		Numeros x;
+		if(!(annuaire.containsKey(p))){
+			x = new Numeros(n);
+			annuaire.put(p,x);
+		} else {
+			x = annuaire.get(p);
+			x.add(n);
+			annuaire.put(p,x);
+		}
 	}
 	/**
 	* chargement de l'annuaire depuis un fichier texte (le contenu de l'annuaire est remplacé)
