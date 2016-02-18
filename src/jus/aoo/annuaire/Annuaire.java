@@ -2,6 +2,7 @@ package jus.aoo.annuaire;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /** notion d'annuaire : ensemble d'associations Personne-Numero */
 public class Annuaire {
@@ -45,13 +46,20 @@ public class Annuaire {
 	* Correspondance interface: BOUTON Numéro
 	*/
 	public String getNumber(Personne p){
-		
+		Numeros n;
+		n = annuaire.get(p);
+		if (n==null){return null;}
+		return n.numero();
 	}
 	/**
 	* retourne les numéros de la personne, si la personne est absente retourne null
 	* Correspondance interface: BOUTON Numéros
 	*/
 	public String getNumbers(Personne p){
+		Numeros n;
+		n = annuaire.get(p);
+		if (n==null){return null;}
+		return n.toString();
 		
 	}
 	/**
@@ -60,28 +68,41 @@ public class Annuaire {
 	* Correspondance interface: BOUTON Print Répertoire
 	*/
 	public String toString(){
-		
+		String s ="";
+		for (Entry<Personne,Numeros> entree : annuaire.entrySet()) {
+			s+= entree.getKey().toString()+" "+entree.getValue().toString()+"\n";
+		}
+		return s;
 	}
 	/**
 	* retourne la première personne ayant le numero donné, null si aucune personne
 	* Correspondance interface: BOUTON Personne
 	*/
 	public Personne annuInverse(String num){
-		
+		for (Entry<Personne,Numeros> entree : annuaire.entrySet()) {
+			if(entree.getValue().has(num)){return entree.getKey();}
+		}
+		return null;
 	}
 	/**
 	* supprime la personne de l'annuaire, si elle est présente
 	* Correspondance interface: BOUTON Supprimer (si le champ "numero" est vide)
 	*/
 	public void remove(Personne p){
-		
+		annuaire.remove(p);
 	}
 	/**
 	* supprime le numero donné de la personne, s'il n'y a plus qu'un numéro dans la liste supprime la personne
 	* Correspondance interface: BOUTON Supprimer (si le champ "numero" est rempli)
 	*/
 	public void remove(Personne p,String num){
-		
+		Numeros n;
+		n = annuaire.get(p);
+		if(n.count()==1){this.remove(p);}
+		else{
+			n.remove(num);
+			annuaire.put(p,n);
+		}
 	}
 	
 }
