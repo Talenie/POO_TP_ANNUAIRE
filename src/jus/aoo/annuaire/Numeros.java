@@ -3,6 +3,8 @@ package jus.aoo.annuaire;
 import java.util.LinkedList;
 import java.util.List;
 
+import jus.util.assertion.Ensure;
+import jus.util.assertion.Invariant;
 import jus.util.assertion.Require;
 
 /**
@@ -16,14 +18,23 @@ public class Numeros {
 	
 
 	/** Constructeur d'une liste à un seul numéro */
-	public Numeros(String num) {
+	public Numeros(String num) throws Invariant {
 		numeros = new LinkedList<>();
 		numeros.add(num);
+		_invariant();
 	}
 	
-	/** ajoute un numéro à la liste */
-	public void add(String num) {
+	/** ajoute un numéro à la liste 
+	 * 
+	 * @param num
+	 * @require NumeroValable : _numerovalable(num)
+	 * @ensure NumeroAjoute : this.has(num)
+	 */
+	public void add(String num)throws Require {
+		if(!(_numerovalable(num))){ throw new Require("NumeroValable");}
 		numeros.add(num);
+		if(!(this.has(num))){ throw new Ensure("NumeroAjoute");}
+		_invariant();
 	}
 	
 	/** retourne le premier numéro de la liste (il existe forcément) */
@@ -47,28 +58,30 @@ public class Numeros {
 	/** retourne la séquence des numéros séparés par des virgules dans une chaîne */
 	public String toString() {
 		return numeros.toString();
-		/*
-		String str = "";
-		for (String c_num : numeros) {
-			str += " " + c_num;
-		}
-		return str;*/
 	}
 	
 	/** enlève le numéro donné de la liste. 
-	 *  @require: count()>1
+	 *  @require AssezdeNums : count()>1
 	 */
 	public void remove(String num) {
-		if(! (this.count() > 1)) {
-			throw new Require("AssezDeNums");
-		} else {
-			int indice = 0;
-			for (String c_num : numeros) {
-				if(c_num == num) break;
-				indice++;
-			}
-			numeros.remove(indice);
+		if(! (this.count() > 1)) { throw new Require("AssezDeNums");}
+		int indice = 0;
+		for (String c_num : numeros) {
+			if(c_num == num) break;
+			indice++;
 		}
+		numeros.remove(indice);
+		_invariant();
+	}
+	
+	// Vérifications
+	
+	private boolean _invariant(){
+		return this.count() > 0;
+	}
+	
+	private boolean _numerovalable(String num){
+		return (num.length()==10) && (num.charAt(0)=='0') && ((num.charAt(1)=='4')||(num.charAt(1)=='6')||(num.charAt(1)=='7')||(num.charAt(1)=='1'));
 	}
 	
 }

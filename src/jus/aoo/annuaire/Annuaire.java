@@ -1,11 +1,10 @@
 package jus.aoo.annuaire;
 
+/** notion d'annuaire : ensemble d'associations Personne-Numero */
 public class Annuaire {
-
-	/** notion d'annuaire : ensemble d'associations Personne-Numero */
-	public class Annuaire {
-		
-	}
+	
+	// Attributs
+	
 	/** constructeur d'annuaire vide */
 	public Annuaire(){
 		
