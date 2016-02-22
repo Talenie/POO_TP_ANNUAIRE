@@ -1,7 +1,6 @@
 package jus.aoo.annuaire;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import jus.util.assertion.Ensure;
@@ -58,9 +57,13 @@ public class Numeros {
 		return numeros.size();
 	}
 	
-	/** retourne la séquence des numéros séparés par des virgules dans une chaîne */
+	/** retourne la séquence des numéros entre "" */
 	public String toString() {
-		return numeros.toString();
+		String s = "";
+		for (String string : numeros) {
+			s+="\""+string+"\" ";
+		}
+		return s;
 	}
 	
 	/** enlève le numéro donné de la liste. 

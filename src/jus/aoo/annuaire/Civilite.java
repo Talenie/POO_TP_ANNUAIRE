@@ -28,4 +28,11 @@ public enum Civilite {
 		if(civilite.equals("Mademoiselle")||civilite.equals("Melle")){return MELLE;}
 		return INCONNU;
 	}
+	
+	public static Civilite fromint(int civilite){
+		if(civilite==2){return MME;}
+		if(civilite==3){return MR;}
+		if(civilite==1){return MELLE;}
+		return INCONNU;
+	}
 }

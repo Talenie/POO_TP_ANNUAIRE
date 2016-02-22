@@ -66,6 +66,11 @@ public class Personne {
 		identite(nom,prenom,Civilite.fromString(civilite));
 	}
 	
+	
+	public Personne(int civilite, String nom, String prenom){
+		identite(nom,prenom,Civilite.fromint(civilite));
+	}
+	
 	//Getteurs
 	public String nom(){
 		return nom;

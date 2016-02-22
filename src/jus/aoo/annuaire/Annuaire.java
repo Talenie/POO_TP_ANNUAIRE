@@ -39,7 +39,7 @@ public class Annuaire {
 	* Correspondance interface: BOUTON Charger
 	*/
 	public void loadEntryFromFile(String file){
-		
+		annuaire = Util.importFromFile(file);
 	}
 	/**
 	* retourne le premier numéro de la personne, si la personne est absente retourne null
@@ -70,7 +70,7 @@ public class Annuaire {
 	public String toString(){
 		String s ="";
 		for (Entry<Personne,Numeros> entree : annuaire.entrySet()) {
-			s+= entree.getKey().toString()+" "+entree.getValue().toString()+"\n";
+			s+= entree.getKey().toStringsimple()+" "+entree.getValue().toString()+"\n";
 		}
 		return s;
 	}

@@ -10,7 +10,7 @@ public class Test_Annuaire {
 		String n;
 		n = "0650403020";
 		
-		//A.loadEntryFromFile("annuaire.txt");
+		A.loadEntryFromFile("annuaire.txt");
 		
 		A.addEntry(p, n);
 		System.out.println(A.toString());
