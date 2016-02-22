@@ -3,7 +3,7 @@ package jus.aoo.annuaire;
 import jus.util.assertion.Ensure;
 import jus.util.assertion.Require;
 
-public class Personne {
+public class Personne implements Comparable<Personne> {
 	// Attributs
 	private String nom;
 	private String prenom;
@@ -108,5 +108,37 @@ public class Personne {
 	
 	public String toStringsimple(){
 		return civilite.toStringsimple()+" "+nom+" "+prenom;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Personne other = (Personne) obj;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
+		if (prenom == null) {
+			if (other.prenom != null)
+				return false;
+		} else if (!prenom.equals(other.prenom))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int compareTo(Personne o) {
+		if(nom != o.nom()) {
+			return nom.compareTo(o.nom());
+		}
+		else {
+			return prenom.compareTo(o.prenom());
+		}
 	}
 }

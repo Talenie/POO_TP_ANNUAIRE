@@ -4,6 +4,7 @@ package jus.aoo.annuaire;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /** notion d'annuaire : ensemble d'associations Personne-Numero */
 public class Annuaire {
@@ -13,7 +14,7 @@ public class Annuaire {
 	
 	/** constructeur d'annuaire vide */
 	public Annuaire(){
-		annuaire = new HashMap<Personne,Numeros>();
+		annuaire = new TreeMap<Personne,Numeros>();
 	}
 	/**
 	* ajoute une nouvelle entrée dans l'annuaire. Si p n'existe pas: on crée une nouvelle
@@ -23,14 +24,11 @@ public class Annuaire {
 	 * @param n un numéro
 	 */
 	public void addEntry(Personne p, String n){
-		Numeros x;
-		if(!(annuaire.containsKey(p))){
-			x = new Numeros(n);
-			annuaire.put(p,x);
-		} else {
-			x = annuaire.get(p);
-			x.add(n);
-			annuaire.put(p,x);
+		if(annuaire.containsKey(p)) {
+			annuaire.get(p).add(n);
+		}
+		else {
+			annuaire.put(p, new Numeros(n));
 		}
 	}
 	/**
@@ -40,7 +38,20 @@ public class Annuaire {
 	* Correspondance interface: BOUTON Charger
 	*/	
 	public void loadEntryFromFile(String file){
-		annuaire = Util.importFromFile(file);
+		//Il faut trier le tout avant de l'insérer car la méthode importFromFile ne permet pas de trier le fichier
+		Map<Personne,Numeros> map = Util.importFromFile(file);
+		annuaire.clear();
+		annuaire.putAll(map);
+	}
+	
+	/**
+	* ajout des entrées contenues dans un fichier texte chaque ligne du fichier est de la forme :
+	* Civilite Nom Prenom "Numero1" "Numero2" ....
+	* Correspondance interface: BOUTON Importer
+	*/
+	public void addEntryFromFile(String file) {
+		Map<Personne,Numeros> map = Util.importFromFile(file);
+		annuaire.putAll(map);
 	}
 	
 	/**
@@ -53,6 +64,7 @@ public class Annuaire {
 		if (n==null){return null;}
 		return n.numero();
 	}
+	
 	/**
 	* retourne les numéros de la personne, si la personne est absente retourne null
 	* Correspondance interface: BOUTON Numéros
@@ -76,6 +88,22 @@ public class Annuaire {
 		}
 		return s;
 	}
+	
+	/**
+	* retourne la liste des personnes dont le nom commence par la lettre donnée (minuscule ou majuscule)
+	* (une personne par ligne, avec ses numéros)
+	*/
+	public String toString(char c) {
+		String s = "";
+		for (Entry<Personne,Numeros> entree : annuaire.entrySet()) {
+			char fc = entree.getKey().nom().charAt(0);
+			if(fc > c) {
+				return s;
+			} else if(fc == c) { s += entree.toString() + "\n"; }
+		}
+		return s;
+	}
+	
 	/**
 	* retourne la première personne ayant le numero donné, null si aucune personne
 	* Correspondance interface: BOUTON Personne
@@ -86,6 +114,7 @@ public class Annuaire {
 		}
 		return null;
 	}
+	
 	/**
 	* supprime la personne de l'annuaire, si elle est présente
 	* Correspondance interface: BOUTON Supprimer (si le champ "numero" est vide)
