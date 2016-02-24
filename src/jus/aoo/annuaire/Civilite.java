@@ -29,6 +29,11 @@ public enum Civilite {
 		return INCONNU;
 	}
 	
+	/**
+	 * Renvoie une civilité à partir d'un entier. Selon la convention décrite dans Util.importFromFile
+	 * @param civilite
+	 * @return la civilité correpondante à l'entier
+	 */
 	public static Civilite fromint(int civilite){
 		if(civilite==2){return MME;}
 		if(civilite==3){return MR;}
